@@ -8,7 +8,7 @@ if [[ -z "${github_token}" ]]; then
 else
     echo "github_token exists"
 fi
-
+echo "https://hxse:${github_token}@github.com/hxse/trading-webhooks-bot.git"
 echo -n "Enter commit:"  
 read commit
 git add .
