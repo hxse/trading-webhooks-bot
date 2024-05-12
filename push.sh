@@ -9,6 +9,7 @@ else
     echo "github_token exists"
 fi
 
+
 echo -n "Enter commit:"  
 read commit
 git add .
