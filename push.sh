@@ -13,4 +13,4 @@ echo -n "Enter commit:"
 read commit
 git add .
 git commit -m $commit
-git push https://hxse:$github_token@github.com/hxse/trading-webhooks-bot.git
+git push "https://hxse:${github_token}@github.com/hxse/trading-webhooks-bot.git"
