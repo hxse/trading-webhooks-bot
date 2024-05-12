@@ -6,7 +6,7 @@ if [[ -z "${github_token}" ]]; then
     export hxse_github_token=$github_token
     echo $github_token
 else
-    echo "github_token exists" $github_token
+    echo "github_token exists"
 fi
 
 echo -n "Enter commit:"  
