@@ -4,7 +4,6 @@ if [[ -z "${github_token}" ]]; then
     echo -n "Enter your github_token:"  
     read github_token
     export hxse_github_token=$github_token
-    echo $github_token
 else
     echo "github_token exists"
 fi

@@ -1,17 +1,16 @@
 [project]
-name = "trading-webhooks-bot"
+name = "trading_webhooks_bot"
 version = "0.1.0"
 description = "Default template for PDM package"
 authors = [
-    {name = "", email = ""},
+    {name = "hxse", email = "qmlibulqxk@gmail.ccom"},
 ]
 dependencies = [
+    "pandas>=2.0.3",
     "fastapi>=0.111.0",
-    "pytz>=2024.1",
-    "MetaTrader5>=5.0.4288",
-    "mt5linux>=0.1.9",
+    "rpyc==5.2.3",
 ]
-requires-python = "==3.10.*"
+requires-python = "==3.9.*"
 readme = "README.md"
 license = {text = "MIT"}
 
