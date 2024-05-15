@@ -8,10 +8,14 @@ else
     echo "webhooks_token is exists"
 fi
 
-killport() {   
+findPort(){
+    lsof -i tcp:$1
+    }
+
+killPort() {   
     lsof -i tcp:$1 | awk 'NR!=1 {print $2}' | xargs -r kill 
     }
 
 PORT_NUMBER=8234
-killport $PORT_NUMBER
+killPort $PORT_NUMBER
 pdm run fastapi dev server.py --host 0.0.0.0 --port $PORT_NUMBER

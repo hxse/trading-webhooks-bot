@@ -4,25 +4,41 @@ import pandas as pd
 import time
 import pytz
 from tool import freq_dict,round_number,name_dict,create_order,close_order,sltp_order
+from loguru import logger
+
+log_path="trader.log"
+logger.add(log_path, rotation="50 MB",  format="{time:YYYY-MM-DD HH:mm:ss!UTC} | {level} | {message}", backtrace=True, diagnose=True)
 
 mt = MetaTrader5(host="127.0.0.1", port=8721)
 mt.initialize()
-print(mt.version())
+logger.info("init mt5 version: {}", mt.version())
 
+@logger.catch
 def check_version():
+    version = mt.version()
+    logger.info("get mt5 version: {}", version)
     return {
-        "MetaTrader5 version":mt.version()
+        "MetaTrader5 version":version
     }
 
+@logger.catch
 def check_account():
     account = mt.account_info()
+    logger.info("get account: balance={} currency={} server={} company={}", account.balance,account.currency,account.server,account.company)
     return { 
             "balance":account.balance,
             "currency": account.currency,
             "server": account.server, 
             "company":account.company
             }
-    
+
+@logger.catch
+def get_log():
+    with open(log_path, 'r', encoding='utf-8') as file:
+         data = file.read()
+    return data
+
+@logger.catch
 def get_data(symbol, freq, count):
     if freq not in freq_dict:
         return None
@@ -32,43 +48,53 @@ def get_data(symbol, freq, count):
     data = pd.DataFrame(rate)
     data["date"] = pd.to_datetime(data["time"], unit="s")
     # data.set_index("date",inplace=True)
+    logger.info("get data: symbol={} freq={} count={}", symbol,freq,count)
     return data.to_dict(orient='list')
 
+@logger.catch
 def run_trading(data, enable_exit=True):
     deviation=6
     res={}
     name=name_dict[data["ticker"]]["name"] if "!"in data["ticker"] else data["ticker"] 
     if data["message"] =="Long Entry":
+        price=mt.symbol_info_tick(name).ask
+        logger.info("Long Entry: name={} qty={} price={} sl={} tp={} sl_round={} tp_round={}", name,data["size"],price,data["sl"],data["tp"],data["sl_round"],data["tp_round"])
         res=create_order(
                      mt=mt,
                      symbol=name,
                      qty=data["size"], 
                      order_type=mt.ORDER_TYPE_BUY ,
-                     price=mt.symbol_info_tick(name).ask,
+                     price=price,
                      sl=data["sl_round"],
                      tp=data["tp_round"],
                      deviation=deviation
                      )
     if data["message"]== "Short Entry":
+        price=mt.symbol_info_tick(name).bid
+        logger.info("Short Entry: name={} qty={} price={} sl={} tp={} sl_round={} tp_round={}", name,data["size"],price,data["sl"],data["tp"],data["sl_round"],data["tp_round"])
         res=create_order(
                      mt=mt,
                      symbol=name,
                      qty=data["size"], 
                      order_type=mt.ORDER_TYPE_SELL ,
-                     price=mt.symbol_info_tick(name).bid,
+                     price=price,
                      sl=data["sl_round"],
                      tp=data["tp_round"],
                      deviation=deviation
                      )
     if data["message"]=="Long Exit" and enable_exit:
+        logger.info("Long Exit: name={} qty={} sl_round={} tp_round={}", name,data["size"],data["sl_round"],data["tp_round"])
         res=close_order(mt=mt, symbol=name, close_qty=data["size"],deviation=deviation)
     if data["message"]=="Short Exit" and enable_exit:
+        logger.info("Short Exit: name={} qty={} sl_round={} tp_round={}", name,data["size"],data["sl_round"],data["tp_round"])
         res=close_order(mt=mt, symbol=name, close_qty=data["size"],deviation=deviation)
     if data["message"]=="Clear All":
+        logger.info("Clear All: name={}", name)
         res=close_order(mt=mt, symbol=name, close_qty="all",deviation=deviation)
     if data["message"]=="Change SLTP":
+        logger.info("Change SLTP: name={} sl_round={} tp_round={}", name,data["sl_round"],data["tp_round"])
         res=sltp_order(mt=mt, symbol=name, sl=data["sl_round"],tp=data["tp_round"])
-    print(res)
+    logger.info("res: {}", res)
     return res
 
 if __name__ == '__main__':

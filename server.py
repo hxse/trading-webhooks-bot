@@ -1,7 +1,8 @@
 from fastapi import FastAPI,Request
+from fastapi.responses import HTMLResponse
 import os
 from tool import convert
-from mt5_trader import run_trading,check_account,check_version,get_data
+from mt5_trader import run_trading,check_account,check_version,get_data,get_log
 
 try:
     token_env=os.environ['webhooks_token']
@@ -19,6 +20,10 @@ async def check_version_route(token:str=None):
 @app.get("/account")
 async def check_account_route(token:str=None):
     return check_account()
+
+@app.get("/log", response_class=HTMLResponse)
+async def get_log_route(token:str=None):
+    return get_log().replace("\n","<br>")
 
 @app.get("/data")
 async def get_data_route(token:str=None,symbol:str='', freq:str='', count:int=0):
