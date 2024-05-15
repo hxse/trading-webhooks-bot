@@ -5,7 +5,7 @@
 groups = ["default"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:0b9e762b8f3d261d16433c8e022393ac33b31baf29b1cfbb2242ffc32df096ad"
+content_hash = "sha256:add04b7109aa025a81b558e2c30e8bc7d19ec9399653d98b4e29083e02083fe1"
 
 [[package]]
 name = "annotated-types"
@@ -505,36 +505,6 @@ files = [
 ]
 
 [[package]]
-name = "python-telegram-bot"
-version = "21.1.1"
-requires_python = ">=3.8"
-summary = "We have made you a wrapper you can't refuse"
-groups = ["default"]
-dependencies = [
-    "httpx~=0.27",
-]
-files = [
-    {file = "python-telegram-bot-21.1.1.tar.gz", hash = "sha256:5fd21710902270f5946c6a484918227b361b8119e1dadae6b3dd7fcee3b1a74e"},
-    {file = "python_telegram_bot-21.1.1-py3-none-any.whl", hash = "sha256:dded93d733585a37b382fd5e088faffc37c3ae6d2bd4052d105d9a40f8a0152a"},
-]
-
-[[package]]
-name = "python-telegram-bot"
-version = "21.1.1"
-extras = ["webhooks"]
-requires_python = ">=3.8"
-summary = "We have made you a wrapper you can't refuse"
-groups = ["default"]
-dependencies = [
-    "python-telegram-bot==21.1.1",
-    "tornado~=6.4",
-]
-files = [
-    {file = "python-telegram-bot-21.1.1.tar.gz", hash = "sha256:5fd21710902270f5946c6a484918227b361b8119e1dadae6b3dd7fcee3b1a74e"},
-    {file = "python_telegram_bot-21.1.1-py3-none-any.whl", hash = "sha256:dded93d733585a37b382fd5e088faffc37c3ae6d2bd4052d105d9a40f8a0152a"},
-]
-
-[[package]]
 name = "pytz"
 version = "2024.1"
 summary = "World timezone definitions, modern and historical"
@@ -665,26 +635,6 @@ dependencies = [
 files = [
     {file = "starlette-0.37.2-py3-none-any.whl", hash = "sha256:6fe59f29268538e5d0d182f2791a479a0c64638e6935d1c6989e63fb2699c6ee"},
     {file = "starlette-0.37.2.tar.gz", hash = "sha256:9af890290133b79fc3db55474ade20f6220a364a0402e0b556e7cd5e1e093823"},
-]
-
-[[package]]
-name = "tornado"
-version = "6.4"
-requires_python = ">= 3.8"
-summary = "Tornado is a Python web framework and asynchronous networking library, originally developed at FriendFeed."
-groups = ["default"]
-files = [
-    {file = "tornado-6.4-cp38-abi3-macosx_10_9_universal2.whl", hash = "sha256:02ccefc7d8211e5a7f9e8bc3f9e5b0ad6262ba2fbb683a6443ecc804e5224ce0"},
-    {file = "tornado-6.4-cp38-abi3-macosx_10_9_x86_64.whl", hash = "sha256:27787de946a9cffd63ce5814c33f734c627a87072ec7eed71f7fc4417bb16263"},
-    {file = "tornado-6.4-cp38-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:f7894c581ecdcf91666a0912f18ce5e757213999e183ebfc2c3fdbf4d5bd764e"},
-    {file = "tornado-6.4-cp38-abi3-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:e43bc2e5370a6a8e413e1e1cd0c91bedc5bd62a74a532371042a18ef19e10579"},
-    {file = "tornado-6.4-cp38-abi3-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:f0251554cdd50b4b44362f73ad5ba7126fc5b2c2895cc62b14a1c2d7ea32f212"},
-    {file = "tornado-6.4-cp38-abi3-musllinux_1_1_aarch64.whl", hash = "sha256:fd03192e287fbd0899dd8f81c6fb9cbbc69194d2074b38f384cb6fa72b80e9c2"},
-    {file = "tornado-6.4-cp38-abi3-musllinux_1_1_i686.whl", hash = "sha256:88b84956273fbd73420e6d4b8d5ccbe913c65d31351b4c004ae362eba06e1f78"},
-    {file = "tornado-6.4-cp38-abi3-musllinux_1_1_x86_64.whl", hash = "sha256:71ddfc23a0e03ef2df1c1397d859868d158c8276a0603b96cf86892bff58149f"},
-    {file = "tornado-6.4-cp38-abi3-win32.whl", hash = "sha256:6f8a6c77900f5ae93d8b4ae1196472d0ccc2775cc1dfdc9e7727889145c45052"},
-    {file = "tornado-6.4-cp38-abi3-win_amd64.whl", hash = "sha256:10aeaa8006333433da48dec9fe417877f8bcc21f48dda8d661ae79da357b2a63"},
-    {file = "tornado-6.4.tar.gz", hash = "sha256:72291fa6e6bc84e626589f1c29d90a5a6d593ef5ae68052ee2ef000dfd273dee"},
 ]
 
 [[package]]
