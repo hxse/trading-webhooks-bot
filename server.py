@@ -23,7 +23,7 @@ async def check_account_route(token:str=None):
 
 @app.get("/log", response_class=HTMLResponse)
 async def get_log_route(token:str=None):
-    return get_log().replace("\n","<br>")
+    return get_log()
 
 @app.get("/data")
 async def get_data_route(token:str=None,symbol:str='', freq:str='', count:int=0):

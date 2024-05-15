@@ -36,7 +36,7 @@ def check_account():
 def get_log():
     with open(log_path, 'r', encoding='utf-8') as file:
          data = file.read()
-    return data
+    return data.replace("\n","<br>").replace("Long Entry:","<mark>Long Entry:</mark>").replace("Short Entry:","<mark>Short Entry:</mark>")
 
 @logger.catch
 def get_data(symbol, freq, count):
@@ -58,7 +58,7 @@ def run_trading(data, enable_exit=True):
     name=name_dict[data["ticker"]]["name"] if "!"in data["ticker"] else data["ticker"] 
     if data["message"] =="Long Entry":
         price=mt.symbol_info_tick(name).ask
-        logger.info("Long Entry: name={} qty={} price={} sl={} tp={} sl_round={} tp_round={}", name,data["size"],price,data["sl"],data["tp"],data["sl_round"],data["tp_round"])
+        logger.info("Long Entry: name={} time={} qty={} price={} sl={} tp={} sl_round={} tp_round={}",name,data["time"],data["size"],price,data["sl"],data["tp"],data["sl_round"],data["tp_round"])
         res=create_order(
                      mt=mt,
                      symbol=name,
@@ -71,7 +71,7 @@ def run_trading(data, enable_exit=True):
                      )
     if data["message"]== "Short Entry":
         price=mt.symbol_info_tick(name).bid
-        logger.info("Short Entry: name={} qty={} price={} sl={} tp={} sl_round={} tp_round={}", name,data["size"],price,data["sl"],data["tp"],data["sl_round"],data["tp_round"])
+        logger.info("Short Entry: name={} time={} qty={} price={} sl={} tp={} sl_round={} tp_round={}",name,data["time"],data["size"],price,data["sl"],data["tp"],data["sl_round"],data["tp_round"])
         res=create_order(
                      mt=mt,
                      symbol=name,
@@ -83,16 +83,16 @@ def run_trading(data, enable_exit=True):
                      deviation=deviation
                      )
     if data["message"]=="Long Exit" and enable_exit:
-        logger.info("Long Exit: name={} qty={} sl_round={} tp_round={}", name,data["size"],data["sl_round"],data["tp_round"])
+        logger.info("Long Exit: name={} time={} qty={} sl_round={} tp_round={}", name,data["time"],data["size"],data["sl_round"],data["tp_round"])
         res=close_order(mt=mt, symbol=name, close_qty=data["size"],deviation=deviation)
     if data["message"]=="Short Exit" and enable_exit:
-        logger.info("Short Exit: name={} qty={} sl_round={} tp_round={}", name,data["size"],data["sl_round"],data["tp_round"])
+        logger.info("Short Exit: name={} time={} qty={} sl_round={} tp_round={}", name,data["time"],data["size"],data["sl_round"],data["tp_round"])
         res=close_order(mt=mt, symbol=name, close_qty=data["size"],deviation=deviation)
     if data["message"]=="Clear All":
-        logger.info("Clear All: name={}", name)
+        logger.info("Clear All: name={} time={}", name, data["time"])
         res=close_order(mt=mt, symbol=name, close_qty="all",deviation=deviation)
     if data["message"]=="Change SLTP":
-        logger.info("Change SLTP: name={} sl_round={} tp_round={}", name,data["sl_round"],data["tp_round"])
+        logger.info("Change SLTP: name={} time={} sl_round={} tp_round={}", name, data["time"],data["sl_round"],data["tp_round"])
         res=sltp_order(mt=mt, symbol=name, sl=data["sl_round"],tp=data["tp_round"])
     logger.info("res: {}", res)
     return res
