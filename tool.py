@@ -1,5 +1,7 @@
 import datetime
 import pytz
+import requests
+from requests.utils import requote_uri
 
 freq_dict={
         "1m":lambda mt: mt.TIMEFRAME_M1,
@@ -66,6 +68,8 @@ def convert(json):
         json["time"]= convert_time(json["timestamp"],name_dict[json["ticker"]]["zone"])
     return json
 
+def convert_history_deals(data):
+    return [{ "ticket":i.ticket,"order":i.order,"time":i.time,"type":i.type,"entry":i.entry, "magic":i.magic, "position_id":i.position_id, "reason":i.reason, "volume":i.volume, "price":i.price, "commission":i.commission,"swap":i.swap,"profit":i.profit, "fee":i.fee, "symbol":i.symbol,"comment":i.comment, "external_id":i.external_id } for i in data]
 
 def create_order(mt,symbol, qty, order_type, price, sl, tp, deviation):
     request = {
@@ -135,6 +139,12 @@ def sltp_order(mt,symbol, sl, tp):
         p = p_list[0]
         res = _sltp_order(mt,symbol, p.ticket, sl, tp)
         return res
+
+def req_tg_bot(tg_bot_url_api, message):
+    if tg_bot_url_api:
+        uri=requote_uri(tg_bot_url_api+message)
+        print(uri)
+        requests.get(uri)
 
 if __name__ == '__main__':
     data = {'ticker': 'MCL1!', 'sl': 78.21909, 'tp': 78.14091, 'timestamp': 1715583600000, 'message': 'Short Alert'}
