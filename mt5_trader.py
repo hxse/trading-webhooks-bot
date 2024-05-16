@@ -89,7 +89,7 @@ def run_trading(data, enable_exit=True):
         message=f'Long Entry: name={name} time={data["time"]} qty={data["size"]} price={price} sl={data["sl"]} tp={data["tp"]} sl_round={data["sl_round"]} tp_round={data["tp_round"]}'
         logger.info(message)
         req_tg_bot(tg_bot_url_api,message=message)
-        
+
     if data["message"]== "Short Entry":
         price=mt.symbol_info_tick(name).bid
         res=create_order(

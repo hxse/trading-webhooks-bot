@@ -1,7 +1,7 @@
 import datetime
 import pytz
+import urllib.parse
 import requests
-from requests.utils import requote_uri
 
 freq_dict={
         "1m":lambda mt: mt.TIMEFRAME_M1,
@@ -142,9 +142,9 @@ def sltp_order(mt,symbol, sl, tp):
 
 def req_tg_bot(tg_bot_url_api, message):
     if tg_bot_url_api:
-        uri=requote_uri(tg_bot_url_api+message)
-        print(uri)
-        requests.get(uri)
+        url=tg_bot_url_api+urllib.parse.quote(message,safe="")
+        print(url)
+        requests.get(url)
 
 if __name__ == '__main__':
     data = {'ticker': 'MCL1!', 'sl': 78.21909, 'tp': 78.14091, 'timestamp': 1715583600000, 'message': 'Short Alert'}
