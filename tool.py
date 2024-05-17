@@ -16,9 +16,9 @@ freq_dict={
         "1w":lambda mt: mt.TIMEFRAME_W1,
         "1mn":lambda mt: mt.TIMEFRAME_MN1,
     }
- 
+
 name_dict = {
-    "MCL1!": {"zone":"America/New_York","trade_tick_size":0.01, "name":"MCLEM24"},
+    "MCL1!": {"zone":"America/New_York","trade_tick_size":0.01, "name":"MCLEN24"},
     "MGC1!": {"zone":"America/New_York","trade_tick_size":0.1,"name":"MGCM24"},
     "MHG1!": {"zone":"America/New_York","trade_tick_size":0.0005,"name":"MHGN24"},
     "MES1!": {"zone":"America/Chicago","trade_tick_size":0.25,"name":"MESM24"},
@@ -143,7 +143,6 @@ def sltp_order(mt,symbol, sl, tp):
 def req_tg_bot(tg_bot_url_api, message):
     if tg_bot_url_api:
         url=tg_bot_url_api+urllib.parse.quote(message,safe="")
-        print(url)
         requests.get(url)
 
 if __name__ == '__main__':
