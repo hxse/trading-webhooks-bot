@@ -4,7 +4,7 @@ import pandas as pd
 import time
 import os
 import pytz
-from tool import freq_dict,round_number,name_dict,create_order,close_order,sltp_order,convert_history_deals,req_tg_bot
+from tool import freq_dict,round_number,name_dict,create_order,close_order,sltp_order,convert_history_deals,count_history_deals,req_tg_bot
 from loguru import logger
 
 try:
@@ -56,8 +56,7 @@ def get_data(symbol, freq, count):
     rate = mt.copy_rates_from(symbol, freq_dict[freq](mt), t, count)
     data = pd.DataFrame(rate)
     data["date"] = pd.to_datetime(data["time"], unit="s")
-    # data.set_index("date",inplace=True)
-    logger.info("get data: symbol={} freq={} count={}", symbol,freq,count)
+    # logger.info("get data: symbol={} freq={} count={}", symbol,freq,count)
     return data.to_dict(orient='list')
 
 @logger.catch
@@ -65,8 +64,9 @@ def get_history_deals(days=7):
     now=datetime.datetime.now()
     data =mt.history_deals_get(now-datetime.timedelta(days=days), now)
     data=convert_history_deals(list(data))
-    logger.info("get deals: days={}", days)
-    return data
+    countData=count_history_deals(data)
+    # logger.info("get deals: days={}", days)
+    return [*data,countData]
 
 @logger.catch
 def run_trading(data, enable_exit=True):

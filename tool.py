@@ -71,6 +71,15 @@ def convert(json):
 def convert_history_deals(data):
     return [{ "ticket":i.ticket,"order":i.order,"time":i.time,"type":i.type,"entry":i.entry, "magic":i.magic, "position_id":i.position_id, "reason":i.reason, "volume":i.volume, "price":i.price, "commission":i.commission,"swap":i.swap,"profit":i.profit, "fee":i.fee, "symbol":i.symbol,"comment":i.comment, "external_id":i.external_id } for i in data]
 
+def count_history_deals(data):
+    d={}
+    for i in data:
+        if i["symbol"] not in d:
+            d[i["symbol"]]=0
+        else:
+            d[i["symbol"]]=d[i["symbol"]]+i["profit"]
+    return d
+
 def create_order(mt,symbol, qty, order_type, price, sl, tp, deviation):
     request = {
         "action": mt.TRADE_ACTION_DEAL,
