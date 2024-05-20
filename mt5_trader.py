@@ -121,6 +121,20 @@ def run_trading(data, enable_exit=True):
         logger.info(message)
         req_tg_bot(tg_bot_url_api,message=message)
         
+    if data["message"]=="Out Long":
+        res=close_order(mt=mt, symbol=name, close_qty="all",deviation=deviation)
+
+        message=f'Out Long: name={name} time={data["time"]}'
+        logger.info(message)
+        req_tg_bot(tg_bot_url_api,message=message)
+        
+    if data["message"]=="Out Short":
+        res=close_order(mt=mt, symbol=name, close_qty="all",deviation=deviation)
+
+        message=f'Out Short: name={name} time={data["time"]}'
+        logger.info(message)
+        req_tg_bot(tg_bot_url_api,message=message)
+        
     if data["message"]=="Clear All":
         res=close_order(mt=mt, symbol=name, close_qty="all",deviation=deviation)
         
