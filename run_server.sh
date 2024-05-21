@@ -19,4 +19,4 @@ killPort() {
 PORT_NUMBER=8234
 # findPort $PORT_NUMBER
 killPort $PORT_NUMBER
-pdm run fastapi dev server.py --host 0.0.0.0 --port $PORT_NUMBER &
+nohup pdm run fastapi dev server.py --host 0.0.0.0 --port $PORT_NUMBER >/dev/null 2>&1 &
