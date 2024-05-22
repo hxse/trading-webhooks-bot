@@ -149,8 +149,17 @@ def run_trading(data, enable_exit=True):
         logger.info(message)
         # req_tg_bot(tg_bot_url_api,message=message)
 
-    logger.info("res: {}", res)
-    logger.info("data: {}", data)
+    if data["message"]=="Long Signal":
+        message=f'Long Signal: name={name} time={data["time"]} period={data["period"]}'
+        req_tg_bot(tg_bot_url_api,message=message)
+    
+    if data["message"]=="Short Signal":
+        message=f'Short Signal: name={name} time={data["time"]} period={data["period"]}'
+        req_tg_bot(tg_bot_url_api,message=message)
+    
+    if data["message"]!="Long Signal" and data["message"]!="Short Signal":
+        logger.info("res: {}", res)
+        logger.info("data: {}", data)
     return res
 
 if __name__ == '__main__':
